@@ -1,0 +1,29 @@
+{
+    "importMap": "import_map.json",
+    "compilerOptions": {
+        "allowJs": false,
+        "experimentalDecorators": true,
+        "lib": [
+            "deno.window"
+        ],
+        "noImplicitAny": false,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitReturns": true,
+        "strict": true
+    },
+    "fmt": {
+        "files": {
+            "include": [
+                "src/"
+            ],
+            "exclude": []
+        },
+        "options": {
+            "useTabs": false,
+            "lineWidth": 120,
+            "indentWidth": 4,
+            "singleQuote": false,
+            "proseWrap": "preserve"
+        }
+    }
+}
