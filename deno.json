@@ -1,0 +1,10 @@
+{
+    "importMap": "./import_map.json",
+    "compilerOptions": {
+        "lib": ["deno.window", "esnext"],
+        "allowJs": false,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitReturns": true,
+        "noImplicitAny": false
+    }
+}
