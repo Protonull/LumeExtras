@@ -19,7 +19,7 @@ export const pages: Array<BasicPage | AdvancedPage> = [];
  * pages.push({ url: "/CNAME", content: "example.com" });
  * 
  * // [pages].tmpl.ts
- * import { generatePages } from "extras/pages.ts";
+ * import { generatePages } from "extras/site.ts";
  * export default generatePages();
  */
 export function generatePages() {
