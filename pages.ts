@@ -22,6 +22,8 @@ export const pages: Array<BasicPage | AdvancedPage> = [];
  * import { generatePages } from "extras/pages.ts";
  * export default generatePages();
  */
-export async function* generatePages() {
-    yield* pages;
+export function generatePages() {
+    return async function* () {
+        yield* pages;
+    }
 }
