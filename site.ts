@@ -1,4 +1,6 @@
 import { AdvancedPage, BasicPage } from "./page.ts";
+import { Content, Site } from "lume/core.ts";
+import { Suggestion } from "./basics.ts";
 
 /**
  * Please ensure that each "url" property is 'absolute' (starts with a '/').
@@ -26,4 +28,31 @@ export function generatePages() {
     return async function* () {
         yield* pages;
     }
+}
+
+/**
+ * Lume separates these calls, presumably so you can process the file, but if
+ * you just want to copy-paste a remote file as-is, this can help.
+ */
+export function copyRemoteFile(
+    site: Site,
+    filename: string,
+    url: string
+) {
+    site.remoteFile(filename, url);
+    site.copy(filename);
+}
+
+/**
+ * This allows you to transform a remote file before it's saved. Be aware that
+ * this uses the custom page-generation method over Lume's first-party methods.
+ */
+export function transformRemoteFile(
+    filename: string,
+    url: string,
+    transformer: (response: Response) => Suggestion<Content>
+): Promise<void> {
+    return fetch(url)
+        .then((res) => transformer(res))
+        .then((content) => { pages.push({ url: filename, content }) });
 }
