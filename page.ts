@@ -92,15 +92,16 @@ export function generatePages(fn: (fns: {
     helpers: Helpers,
 }) => ReturnType<PageGenerator>): PageGenerator {
     return async function* (data, helpers) {
+        function resolvePagePath(path) {
+            return path.startsWith("/") ? path : std_path.resolve(std_path.dirname(data?.page?.src?.path ?? "/"), path);
+        }
         yield* fn({
-            resolvePagePath(path) {
-                return path.startsWith("/") ? path : std_path.resolve(std_path.dirname(data?.page?.src?.path ?? "/"), path);
-            },
+            resolvePagePath,
             yieldBasicPage(path, content) {
-                return { url: this.resolvePagePath(path), content };
+                return { url: resolvePagePath(path), content };
             },
             yieldAdvancedPage(page) {
-                page.url = this.resolvePagePath(page.url);
+                page.url = resolvePagePath(page.url);
                 return page;
             },
             data,
