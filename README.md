@@ -22,5 +22,5 @@ pages.push({
 
 // [pages].tmpl.ts
 import { generatePages } from "extras/site.ts";
-export default generatePages();
+export default generatePages;
 ```

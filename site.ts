@@ -22,12 +22,10 @@ export const pages: Array<BasicPage | AdvancedPage> = [];
  * 
  * // [pages].tmpl.ts
  * import { generatePages } from "extras/site.ts";
- * export default generatePages();
+ * export default generatePages;
  */
-export function generatePages() {
-    return async function* () {
-        yield* pages;
-    }
+export async function* generatePages() {
+    yield* pages;
 }
 
 /**
