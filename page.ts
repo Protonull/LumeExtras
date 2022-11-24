@@ -54,58 +54,17 @@ export type PageDefault = (...args: PageParameters) => Suggestion<Content>;
 export type PageGenerator = (...args: PageParameters) => AsyncGenerator<BasicPage | AdvancedPage>;
 
 /**
- * Page generator wrapper that gives some helper functions.
- * @summary Added due to a bug in Lume's page generation where, in an example multi-page generator at "/example/page.tmpl.ts" that returns a page-url of "./test.html", the resulting page will be rendered at "/example/example/test.html".
+ * Resolves a given page path in relation to the generator, or as-is if the path starts with /
+ * 
+ * @param data The data parameter passed through from the multi-page generator.
+ * @param path The intended destination for the page, which should include the extension, if relevant.
+ * 
  * @example
- * export default generatePages(async function* ({ yieldBasicPage }) {
- *     yield yieldBasicPage("/CNAME", "example.com");
- * });
+ * // file: /example/page.tmpl.ts
+ * getPageURL("/CNAME")        // = /CNAME
+ * getPageURL("testing.html")  // = /example/testing.html
+ * getPageURL("../index.html") // = /index.html
  */
-export function generatePages(fn: (fns: {
-    /**
-     * Resolves a given page path in relation to the generator, or as-is if the path starts with /
-     * @example
-     * // /example/page.tmpl.ts
-     * resolvePagePath("/CNAME")        // = /CNAME
-     * resolvePagePath("testing.html")  // = /example/testing.html
-     * resolvePagePath("../index.html") // = /index.html
-     */
-    resolvePagePath(path: string): string,
-    /**
-     * @param path The destination-path for this page which will be resolved with resolvePagePath.
-     * @example
-     * yieldBasicPage("/CNAME", "example.com")
-     * yieldBasicPage("example.html", "test")
-     */
-    yieldBasicPage(path: string, content: Suggestion<Content>): BasicPage,
-    /**
-     * @param page The url property will be resolved with resolvePagePath.
-     * @example
-     * yieldAdvancedPage({
-     *     url: "example.html",
-     *     layout: "layouts/example.ts",
-     *     body: "Hello, World!"
-     * })
-     */
-    yieldAdvancedPage(page: AdvancedPage): AdvancedPage,
-    data: Data,
-    helpers: Helpers,
-}) => ReturnType<PageGenerator>): PageGenerator {
-    return async function* (data, helpers) {
-        function resolvePagePath(path) {
-            return path.startsWith("/") ? path : std_path.resolve(std_path.dirname(data?.page?.src?.path ?? "/"), path);
-        }
-        yield* fn({
-            resolvePagePath,
-            yieldBasicPage(path, content) {
-                return { url: resolvePagePath(path), content };
-            },
-            yieldAdvancedPage(page) {
-                page.url = resolvePagePath(page.url);
-                return page;
-            },
-            data,
-            helpers
-        });
-    }
+export function getPageURL(data: Data, path: string): string {
+    return path.startsWith("/") ? path : std_path.resolve(std_path.dirname(data?.page?.src?.path ?? "/"), path);
 }
