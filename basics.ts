@@ -19,6 +19,14 @@ export type Stringlike = string | { toString(): string; };
  */
 export type Suggestion<T> = T | Promise<T>;
 
+import { type JSONValue } from "std/encoding/jsonc.ts";
+/** Alias for JSONValue to not necessitate another import */
+export type JSONAny = JSONValue;
+/** Isolated JSON-object type. */
+export type JSONObject = { [key: string]: JSONValue | undefined };
+/** Isolated JSON-array type. */
+export type JSONArray = JSONValue[];
+
 /**
  * Hacky way of getting type highlighting.
  * @example
