@@ -8,7 +8,7 @@ Here be a series of utilities to aid in your [Lume](https://lume.land/) adventur
 // import_map.json
 {
     "imports": {
-        "extras/": "https://deno.land/x/lume_extras@v0.0.2/"
+        "extras/": "https://deno.land/x/lume_extras@v0.0.3/"
     }
 }
 ```
