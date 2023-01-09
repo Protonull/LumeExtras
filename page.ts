@@ -1,6 +1,5 @@
 import { Content, Data } from "lume/core/filesystem.ts";
 import { ModuleEngine } from "lume/plugins/modules.ts";
-import * as std_path from "std/path/mod.ts";
 import { Suggestion } from "./basics.ts";
 
 /**
@@ -52,19 +51,3 @@ export type PageDefault = (...args: PageParameters) => Suggestion<Content>;
  * }) as PageGenerator;
  */
 export type PageGenerator = (...args: PageParameters) => AsyncGenerator<BasicPage | AdvancedPage>;
-
-/**
- * Resolves a given page path in relation to the generator, or as-is if the path starts with /
- * 
- * @param data The data parameter passed through from the multi-page generator.
- * @param path The intended destination for the page, which should include the extension, if relevant.
- * 
- * @example
- * // file: /example/page.tmpl.ts
- * getPageURL("/CNAME")        // = /CNAME
- * getPageURL("testing.html")  // = /example/testing.html
- * getPageURL("../index.html") // = /index.html
- */
-export function getPageURL(data: Data, path: string): string {
-    return path.startsWith("/") ? path : std_path.resolve(std_path.dirname(data?.page?.src?.path ?? "/"), path);
-}
