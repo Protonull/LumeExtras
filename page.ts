@@ -29,16 +29,11 @@ export type AdvancedPage = {
 };
 
 /**
- * This applies to page default-functions and generators, but also layout default-functions
- */
-export type PageParameters = [data: Data, helpers: Helpers];
-
-/**
  * Helper type for page default-functions
  * @example
  * export default ((data, helpers) => "Hello World") as PageDefault;
  */
-export type PageDefault = (...args: PageParameters) => Suggestion<Content>;
+export type PageDefault = (data: Data, helpers: Helpers) => Suggestion<Content>;
 
 /**
  * Helper type for page default-generators
@@ -50,4 +45,4 @@ export type PageDefault = (...args: PageParameters) => Suggestion<Content>;
  *     };
  * }) as PageGenerator;
  */
-export type PageGenerator = (...args: PageParameters) => AsyncGenerator<BasicPage | AdvancedPage>;
+export type PageGenerator = (data: Data, helpers: Helpers) => AsyncGenerator<BasicPage | AdvancedPage>;
